@@ -10,48 +10,59 @@ import UIKit
 import CoreImage
 
 class FilteredImageView: UIImageView, ParameterAdjustmentDelegate {
-    var spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+
+    var spinner: UIActivityIndicatorView!
+
     var renderingQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+
     var ciContext: CIContext!
+
     var filter: CIFilter! {
         didSet {
-            self.updateFilteredImage()
+            updateFilteredImage()
         }
     }
+
     var inputImage: UIImage! {
         didSet {
-            self.updateFilteredImage()
+            updateFilteredImage()
         }
     }
 
-    init(frame: CGRect, context: CIContext) {
+    init(frame: CGRect, context: CIContext?) {
         super.init(frame: frame)
-        self.ciContext = context
-        self.clipsToBounds = true
-
-        self.spinner.setTranslatesAutoresizingMaskIntoConstraints(false)
-        self.addSubview(self.spinner)
-
-        self.addConstraint(NSLayoutConstraint(item: self.spinner, attribute: .CenterX, relatedBy: .Equal,
-                                              toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        self.addConstraint(NSLayoutConstraint(item: self.spinner, attribute: .CenterY, relatedBy: .Equal,
-                                              toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+        ciContext = context
+        clipsToBounds = true
+        addSubviews()
     }
 
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        clipsToBounds = true
+        addSubviews()
+    }
+
+    func addSubviews() {
+        spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        spinner.setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(spinner)
+
+        addConstraint(NSLayoutConstraint(item: spinner, attribute: .CenterX, relatedBy: .Equal,
+                                         toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: spinner, attribute: .CenterY, relatedBy: .Equal,
+                                         toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     }
 
     func updateFilteredImage() {
-        if self.image == nil {
-            self.image = self.inputImage
+        if image == nil {
+            image = inputImage
         }
 
-        if self.inputImage != nil && self.filter != nil {
-            self.spinner.startAnimating()
+        if inputImage != nil && filter != nil {
+            spinner.startAnimating()
 
-            let inputCIImage = CIImage(image: self.inputImage)
-            self.filter.setValue(inputCIImage, forKey: kCIInputImageKey)
+            let inputCIImage = CIImage(image: inputImage)
+            filter.setValue(inputCIImage, forKey: kCIInputImageKey)
 
             dispatch_async(renderingQueue, { () -> Void in
                 let cropRect = inputCIImage.extent()
@@ -70,7 +81,7 @@ class FilteredImageView: UIImageView, ParameterAdjustmentDelegate {
     }
 
     func parameterValueDidChange(parameter: ScalarFilterParameter) {
-        self.filter.setValue(parameter.currentValue, forKey: parameter.key)
-        self.updateFilteredImage()
+        filter.setValue(parameter.currentValue, forKey: parameter.key)
+        updateFilteredImage()
     }
 }
