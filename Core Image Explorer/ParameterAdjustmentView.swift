@@ -8,6 +8,10 @@
 
 import UIKit
 
+let kSliderMarginX: CGFloat = 20
+let kSliderMarginY: CGFloat = 8
+let kSliderHeight: CGFloat = 48
+
 protocol ParameterAdjustmentDelegate {
     func parameterValueDidChange(param: ScalarFilterParameter)
 }
@@ -36,10 +40,10 @@ class ParameterAdjustmentView: UIView {
     }
 
     func addSubviews() {
-        var yOffset: CGFloat = 8
+        var yOffset: CGFloat = kSliderMarginY
         for param in parameters {
 
-            let frame = CGRectMake(0, yOffset, bounds.size.width, 62)
+            let frame = CGRectMake(0, yOffset, bounds.size.width, kSliderHeight)
 
             let sliderView = LabeledSliderView(frame: frame, parameter: param)
             sliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -48,15 +52,15 @@ class ParameterAdjustmentView: UIView {
             sliderViews.append(sliderView)
 
             addConstraint(NSLayoutConstraint(item: sliderView, attribute: .Leading, relatedBy: .Equal,
-                                             toItem: self, attribute: .Leading, multiplier: 1, constant: 20))
+                                             toItem: self, attribute: .Leading, multiplier: 1, constant: kSliderMarginX))
             addConstraint(NSLayoutConstraint(item: sliderView, attribute: .Top, relatedBy: .Equal,
                                              toItem: self, attribute: .Top, multiplier: 1, constant: yOffset))
             addConstraint(NSLayoutConstraint(item: sliderView, attribute: .Width, relatedBy: .Equal,
-                                             toItem: self, attribute: .Width, multiplier: 1, constant: -40))
+                                             toItem: self, attribute: .Width, multiplier: 1, constant: -kSliderMarginX * 2))
             addConstraint(NSLayoutConstraint(item: sliderView, attribute: .Height, relatedBy: .Equal,
-                                             toItem: self, attribute: .Height, multiplier: 0, constant: 62))
+                                             toItem: self, attribute: .Height, multiplier: 0, constant: kSliderHeight))
 
-            yOffset += 70
+            yOffset += (kSliderHeight + kSliderMarginY)
         }
     }
 }
