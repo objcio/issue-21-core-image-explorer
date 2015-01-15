@@ -48,9 +48,9 @@ class FilteredImageView: UIImageView, ParameterAdjustmentDelegate {
         addSubview(spinner)
 
         addConstraint(NSLayoutConstraint(item: spinner, attribute: .CenterX, relatedBy: .Equal,
-                                         toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+            toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: spinner, attribute: .CenterY, relatedBy: .Equal,
-                                         toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+            toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     }
 
     func updateFilteredImage() {

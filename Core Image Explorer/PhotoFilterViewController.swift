@@ -36,7 +36,7 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
         }
 
         filteredImageView.ciContext = ciContext
-        filteredImageView.inputImage = UIImage(named: "duckling.jpg")
+        filteredImageView.inputImage = UIImage(named: kSampleImageName)
         filteredImageView.contentMode = .ScaleAspectFit
         filteredImageView.filter = filters[0]
     }

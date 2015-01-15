@@ -57,31 +57,31 @@ class LabeledSliderView: UIView {
 
     func addLayoutConstraints() {
         addConstraint(NSLayoutConstraint(item: slider, attribute: .Width, relatedBy: .Equal,
-                                         toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: slider, attribute: .Height, relatedBy: .Equal,
-                                         toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
+            toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
         addConstraint(NSLayoutConstraint(item: slider, attribute: .Bottom, relatedBy: .Equal,
-                                         toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: slider, attribute: .Leading, relatedBy: .Equal,
-                                         toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
 
         addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Top, relatedBy: .Equal,
-                                         toItem: self, attribute: .Top, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Height, relatedBy: .Equal,
-                                         toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
+            toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
         addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Width, relatedBy: .Equal,
-                                         toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Leading, relatedBy: .Equal,
-                                         toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
 
         addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Top, relatedBy: .Equal,
-                                         toItem: self, attribute: .Top, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Top, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Height, relatedBy: .Equal,
-                                         toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
+            toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
         addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Width, relatedBy: .Equal,
-                                         toItem: self, attribute: .Width, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Width, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Leading, relatedBy: .Equal,
-                                         toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+            toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
     }
 
     func sliderValueDidChange(sender: AnyObject?) {

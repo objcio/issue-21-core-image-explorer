@@ -8,6 +8,8 @@
 
 import UIKit
 
+let kSampleImageName = "duckling.jpg"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
