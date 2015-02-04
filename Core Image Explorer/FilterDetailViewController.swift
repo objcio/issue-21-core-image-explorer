@@ -59,11 +59,12 @@ class FilterDetailViewController: UIViewController, UINavigationControllerDelega
     }
 
     func addSubviews() {
-        filteredImageView = FilteredImageView(frame: view.bounds, context: CIContext(options: nil))
+        filteredImageView = FilteredImageView(frame: view.bounds)
         filteredImageView.inputImage = UIImage(named: kSampleImageName)
         filteredImageView.filter = filter
         filteredImageView.contentMode = .ScaleAspectFit
         filteredImageView.clipsToBounds = true
+        filteredImageView.backgroundColor = view.backgroundColor
         filteredImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(filteredImageView)
 

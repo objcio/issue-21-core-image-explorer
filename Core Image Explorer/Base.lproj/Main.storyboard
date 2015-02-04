@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6724" systemVersion="14C94b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Va-s4-dWc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6Va-s4-dWc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6711"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Tab Bar Controller-->
@@ -53,9 +52,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="srr-cX-LDq" customClass="FilteredImageView" customModule="Core_Image_Explorer" customModuleProvider="target">
+                            <glkView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="6QP-ir-F11" customClass="FilteredImageView" customModule="Core_Image_Explorer" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="600" height="387"/>
-                            </imageView>
+                                <color key="backgroundColor" white="0.15450246710526316" alpha="1" colorSpace="calibratedWhite"/>
+                            </glkView>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="M8I-hx-lza">
                                 <rect key="frame" x="0.0" y="451" width="600" height="100"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.14999999999999999" colorSpace="calibratedWhite"/>
@@ -88,18 +88,20 @@
                         </subviews>
                         <color key="backgroundColor" white="0.14999999999999999" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="M8I-hx-lza" firstAttribute="top" secondItem="6QP-ir-F11" secondAttribute="bottom" id="AH2-Bm-EWT"/>
+                            <constraint firstItem="6QP-ir-F11" firstAttribute="top" secondItem="eZI-Ha-SF5" secondAttribute="bottom" id="AfE-e8-5Zp"/>
                             <constraint firstAttribute="width" secondItem="M8I-hx-lza" secondAttribute="width" priority="500" id="AlS-cW-YBL"/>
                             <constraint firstAttribute="centerX" secondItem="M8I-hx-lza" secondAttribute="centerX" id="GXR-22-y2B"/>
-                            <constraint firstItem="srr-cX-LDq" firstAttribute="leading" secondItem="22I-54-rjI" secondAttribute="leadingMargin" constant="-16" id="Jtf-kW-MI6"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="srr-cX-LDq" secondAttribute="trailing" constant="-16" id="hhQ-82-hoC"/>
-                            <constraint firstItem="srr-cX-LDq" firstAttribute="top" secondItem="eZI-Ha-SF5" secondAttribute="bottom" id="j8y-TL-dwJ"/>
+                            <constraint firstAttribute="centerX" secondItem="6QP-ir-F11" secondAttribute="centerX" id="eU6-Jp-yu7"/>
+                            <constraint firstAttribute="width" secondItem="6QP-ir-F11" secondAttribute="width" id="sOY-6l-vMu"/>
                             <constraint firstItem="M8I-hx-lza" firstAttribute="bottom" secondItem="B7d-zF-OYX" secondAttribute="top" id="wqe-iK-j7r"/>
-                            <constraint firstItem="M8I-hx-lza" firstAttribute="top" secondItem="srr-cX-LDq" secondAttribute="bottom" id="zuI-hA-Hfp"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Photo Filters" id="OIv-r7-qEY"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
                     <connections>
-                        <outlet property="filteredImageView" destination="srr-cX-LDq" id="vmy-hj-3fj"/>
+                        <outlet property="filteredImageView" destination="6QP-ir-F11" id="348-eB-ncO"/>
                         <outlet property="photoFilterCollectionView" destination="M8I-hx-lza" id="IOv-5a-UU4"/>
                     </connections>
                 </viewController>

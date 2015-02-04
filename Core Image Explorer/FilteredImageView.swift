@@ -6,82 +6,118 @@
 //  Copyright (c) 2015 objc.io. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreImage
+import GLKit
+import OpenGLES
 
-class FilteredImageView: UIImageView, ParameterAdjustmentDelegate {
-
-    var spinner: UIActivityIndicatorView!
-
-    var renderingQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)
+class FilteredImageView: GLKView, ParameterAdjustmentDelegate {
 
     var ciContext: CIContext!
 
     var filter: CIFilter! {
         didSet {
-            updateFilteredImage()
+            setNeedsDisplay()
         }
     }
 
     var inputImage: UIImage! {
         didSet {
-            updateFilteredImage()
+            setNeedsDisplay()
         }
     }
 
-    init(frame: CGRect, context: CIContext?) {
-        super.init(frame: frame)
-        ciContext = context
+    override init(frame: CGRect) {
+        super.init(frame: frame, context: EAGLContext(API: .OpenGLES2))
         clipsToBounds = true
-        addSubviews()
+        ciContext = CIContext(EAGLContext: context)
     }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         clipsToBounds = true
-        addSubviews()
+        self.context = EAGLContext(API: .OpenGLES2)
+        ciContext = CIContext(EAGLContext: context)
     }
 
-    func addSubviews() {
-        spinner = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        spinner.setTranslatesAutoresizingMaskIntoConstraints(false)
-        addSubview(spinner)
-
-        addConstraint(NSLayoutConstraint(item: spinner, attribute: .CenterX, relatedBy: .Equal,
-            toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: spinner, attribute: .CenterY, relatedBy: .Equal,
-            toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-    }
-
-    func updateFilteredImage() {
-        if image == nil {
-            image = inputImage
-        }
-
-        if inputImage != nil && filter != nil {
-            spinner.startAnimating()
-
+    override func drawRect(rect: CGRect) {
+        if ciContext != nil && inputImage != nil && filter != nil {
             let inputCIImage = CIImage(image: inputImage)
             filter.setValue(inputCIImage, forKey: kCIInputImageKey)
+            if let outputImage = filter.outputImage {
+                clearBackground()
 
-            dispatch_async(renderingQueue, { () -> Void in
-                let cropRect = inputCIImage.extent()
+                let inputBounds = inputCIImage.extent()
+                let drawableBounds = CGRect(x: 0, y: 0, width: self.drawableWidth, height: self.drawableHeight)
+                let targetBounds = imageBoundsForContentMode(inputBounds, toRect: drawableBounds)
+                ciContext.drawImage(filter.outputImage, inRect: targetBounds, fromRect: inputBounds)
+            }
+        }
+    }
 
-                if let outputImage = self.filter.outputImage {
-                    let cgImage = self.ciContext.createCGImage(outputImage, fromRect: cropRect)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.setNeedsDisplay()
+    }
 
-                    let displayImage = UIImage(CGImage: cgImage)
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.image = displayImage
-                        self.spinner.stopAnimating()
-                    })
-                }
-            })
+    func clearBackground() {
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        backgroundColor?.getRed(&r, green: &g, blue: &b, alpha: &a)
+        glClearColor(GLfloat(r), GLfloat(g), GLfloat(b), GLfloat(a))
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+    }
+
+    func aspectFit(fromRect: CGRect, toRect: CGRect) -> CGRect {
+        let fromAspectRatio = fromRect.size.width / fromRect.size.height;
+        let toAspectRatio = toRect.size.width / toRect.size.height;
+
+        var fitRect = toRect
+
+        if (fromAspectRatio > toAspectRatio) {
+            fitRect.size.height = toRect.size.width / fromAspectRatio;
+            fitRect.origin.y += (toRect.size.height - fitRect.size.height) * 0.5;
+        } else {
+            fitRect.size.width = toRect.size.height  * fromAspectRatio;
+            fitRect.origin.x += (toRect.size.width - fitRect.size.width) * 0.5;
+        }
+
+        return CGRectIntegral(fitRect)
+    }
+
+    func aspectFill(fromRect: CGRect, toRect: CGRect) -> CGRect {
+        let fromAspectRatio = fromRect.size.width / fromRect.size.height;
+        let toAspectRatio = toRect.size.width / toRect.size.height;
+
+        var fitRect = toRect
+
+        if (fromAspectRatio > toAspectRatio) {
+            fitRect.size.width = toRect.size.height  * fromAspectRatio;
+            fitRect.origin.x += (toRect.size.width - fitRect.size.width) * 0.5;
+        } else {
+            fitRect.size.height = toRect.size.width / fromAspectRatio;
+            fitRect.origin.y += (toRect.size.height - fitRect.size.height) * 0.5;
+        }
+
+        return CGRectIntegral(fitRect)
+    }
+
+    func imageBoundsForContentMode(fromRect: CGRect, toRect: CGRect) -> CGRect {
+        switch contentMode {
+        case .ScaleAspectFill:
+            return aspectFill(fromRect, toRect: toRect)
+        case .ScaleAspectFit:
+            return aspectFit(fromRect, toRect: toRect)
+        default:
+            return fromRect
         }
     }
 
     func parameterValueDidChange(parameter: ScalarFilterParameter) {
         filter.setValue(parameter.currentValue, forKey: parameter.key)
-        updateFilteredImage()
+        setNeedsDisplay()
     }
 }

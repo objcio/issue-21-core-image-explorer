@@ -14,8 +14,6 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
 
     var filters = [CIFilter]()
 
-    let ciContext = CIContext(options: nil)
-
     let filterDescriptors: [(filterName: String, filterDisplayName: String)] = [
         ("CIColorControls", "None"),
         ("CIPhotoEffectMono", "Mono"),
@@ -35,7 +33,6 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
             filters.append(CIFilter(name: descriptor.filterName))
         }
 
-        filteredImageView.ciContext = ciContext
         filteredImageView.inputImage = UIImage(named: kSampleImageName)
         filteredImageView.contentMode = .ScaleAspectFit
         filteredImageView.filter = filters[0]
@@ -56,7 +53,6 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoFilterCell", forIndexPath: indexPath) as PhotoFilterCollectionViewCell
         cell.filteredImageView.contentMode = .ScaleAspectFill
-        cell.filteredImageView.ciContext = ciContext
         cell.filteredImageView.inputImage = filteredImageView.inputImage
         cell.filteredImageView.filter = filters[indexPath.item]
         cell.filterNameLabel.text = filterDescriptors[indexPath.item].filterDisplayName

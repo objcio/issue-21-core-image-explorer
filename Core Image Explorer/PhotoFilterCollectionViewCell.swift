@@ -31,7 +31,7 @@ class PhotoFilterCollectionViewCell: UICollectionViewCell {
 
     func addSubviews() {
         if (filteredImageView == nil) {
-            filteredImageView = FilteredImageView(frame: CGRectMake(0, 0, kCellWidth, kCellWidth), context: nil)
+            filteredImageView = FilteredImageView(frame: CGRectMake(0, 0, kCellWidth, kCellWidth))
             filteredImageView.layer.borderColor = tintColor.CGColor
             contentView.addSubview(filteredImageView)
         }
