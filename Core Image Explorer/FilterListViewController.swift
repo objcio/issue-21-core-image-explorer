@@ -42,7 +42,7 @@ class FilterListViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow() {
-                var controller = segue.destinationViewController as FilterDetailViewController
+                var controller = segue.destinationViewController as! FilterDetailViewController
                 controller.filterName = filters[indexPath.row].filterName
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }
@@ -61,7 +61,7 @@ class FilterListViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let filterProperties: (filterName: String, filterDisplayName: String) = filters[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("SystemFilterCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SystemFilterCell", forIndexPath: indexPath)as! UITableViewCell
         cell.textLabel!.text = filterProperties.filterDisplayName;
         return cell
     }

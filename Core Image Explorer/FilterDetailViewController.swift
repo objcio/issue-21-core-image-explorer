@@ -20,7 +20,7 @@ class FilterDetailViewController: UIViewController, UINavigationControllerDelega
 
         filter = CIFilter(name: filterName)
 
-        navigationItem.title = filter.attributes()![kCIAttributeFilterDisplayName] as? NSString
+        navigationItem.title = filter.attributes()![kCIAttributeFilterDisplayName] as? String
 
         addSubviews()
     }
@@ -39,19 +39,19 @@ class FilterDetailViewController: UIViewController, UINavigationControllerDelega
     }
 
     func filterParameterDescriptors() -> [ScalarFilterParameter] {
-        var inputNames = (filter.inputKeys() as [String]).filter { (parameterName) -> Bool in
+        var inputNames = (filter.inputKeys() as! [String]).filter { (parameterName) -> Bool in
             return (parameterName as String) != "inputImage"
         }
 
         let attributes = filter.attributes()!
 
         return inputNames.map { (inputName: String) -> ScalarFilterParameter in
-            let attribute = attributes[inputName] as [String : AnyObject]
+            let attribute = attributes[inputName] as! [String : AnyObject]
             // strip "input" from the start of the parameter name to make it more presentation-friendly
             let displayName = inputName[advance(inputName.startIndex, 5)..<inputName.endIndex]
-            let minValue = attribute[kCIAttributeSliderMin] as Float
-            let maxValue = attribute[kCIAttributeSliderMax] as Float
-            let defaultValue = attribute[kCIAttributeDefault] as Float
+            let minValue = attribute[kCIAttributeSliderMin] as! Float
+            let maxValue = attribute[kCIAttributeSliderMax] as! Float
+            let defaultValue = attribute[kCIAttributeDefault] as! Float
 
             return ScalarFilterParameter(name: displayName, key: inputName,
                                          minimumValue: minValue, maximumValue: maxValue, currentValue: defaultValue)
