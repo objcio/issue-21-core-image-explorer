@@ -51,7 +51,7 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoFilterCell", forIndexPath: indexPath) as PhotoFilterCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoFilterCell", forIndexPath: indexPath) as! PhotoFilterCollectionViewCell
         cell.filteredImageView.contentMode = .ScaleAspectFill
         cell.filteredImageView.inputImage = filteredImageView.inputImage
         cell.filteredImageView.filter = filters[indexPath.item]
