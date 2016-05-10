@@ -41,8 +41,8 @@ class FilterListViewController: UITableViewController {
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow() {
-                var controller = segue.destinationViewController as FilterDetailViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let controller = segue.destinationViewController as! FilterDetailViewController
                 controller.filterName = filters[indexPath.row].filterName
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
             }

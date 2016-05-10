@@ -35,7 +35,7 @@ class FilteredImageView: GLKView, ParameterAdjustmentDelegate {
     }
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         clipsToBounds = true
         self.context = EAGLContext(API: .OpenGLES2)
         ciContext = CIContext(EAGLContext: context)
@@ -45,13 +45,13 @@ class FilteredImageView: GLKView, ParameterAdjustmentDelegate {
         if ciContext != nil && inputImage != nil && filter != nil {
             let inputCIImage = CIImage(image: inputImage)
             filter.setValue(inputCIImage, forKey: kCIInputImageKey)
-            if let outputImage = filter.outputImage {
+            if let _  = filter.outputImage {
                 clearBackground()
 
-                let inputBounds = inputCIImage.extent()
+                let inputBounds = inputCIImage!.extent
                 let drawableBounds = CGRect(x: 0, y: 0, width: self.drawableWidth, height: self.drawableHeight)
                 let targetBounds = imageBoundsForContentMode(inputBounds, toRect: drawableBounds)
-                ciContext.drawImage(filter.outputImage, inRect: targetBounds, fromRect: inputBounds)
+                ciContext.drawImage(filter.outputImage!, inRect: targetBounds, fromRect: inputBounds)
             }
         }
     }
