@@ -46,7 +46,7 @@ class ParameterAdjustmentView: UIView {
             let frame = CGRectMake(0, yOffset, bounds.size.width, kSliderHeight)
 
             let sliderView = LabeledSliderView(frame: frame, parameter: param)
-            sliderView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            sliderView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(sliderView)
 
             sliderViews.append(sliderView)

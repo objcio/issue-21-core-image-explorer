@@ -30,7 +30,7 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
         super.viewDidLoad()
 
         for descriptor in filterDescriptors {
-            filters.append(CIFilter(name: descriptor.filterName))
+            filters.append(CIFilter(name: descriptor.filterName)!)
         }
 
         filteredImageView.inputImage = UIImage(named: kSampleImageName)
@@ -51,7 +51,7 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoFilterCell", forIndexPath: indexPath) as PhotoFilterCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoFilterCell", forIndexPath: indexPath) as! PhotoFilterCollectionViewCell
         cell.filteredImageView.contentMode = .ScaleAspectFill
         cell.filteredImageView.inputImage = filteredImageView.inputImage
         cell.filteredImageView.filter = filters[indexPath.item]

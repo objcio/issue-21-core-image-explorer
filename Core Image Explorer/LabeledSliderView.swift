@@ -33,17 +33,17 @@ class LabeledSliderView: UIView {
         slider.minimumValue = parameter.minimumValue!
         slider.maximumValue = parameter.maximumValue!
         slider.value = parameter.currentValue
-        slider.setTranslatesAutoresizingMaskIntoConstraints(false)
+        slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
 
-        slider.addTarget(self, action: "sliderTouchUpInside:", forControlEvents: .TouchUpInside)
-        slider.addTarget(self, action: "sliderValueDidChange:", forControlEvents: .ValueChanged)
+        slider.addTarget(self, action: #selector(LabeledSliderView.sliderTouchUpInside(_:)), forControlEvents: .TouchUpInside)
+        slider.addTarget(self, action: #selector(LabeledSliderView.sliderValueDidChange(_:)), forControlEvents: .ValueChanged)
 
         descriptionLabel = UILabel(frame: frame)
         descriptionLabel.font = UIFont.boldSystemFontOfSize(14)
         descriptionLabel.textColor = UIColor(white: 0.9, alpha: 1.0)
         descriptionLabel.text = parameter.name
-        descriptionLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(descriptionLabel)
 
         valueLabel = UILabel(frame: frame)
@@ -51,7 +51,7 @@ class LabeledSliderView: UIView {
         valueLabel.textColor = UIColor(white: 0.9, alpha: 1.0)
         valueLabel.textAlignment = .Right
         valueLabel.text = slider.value.description
-        valueLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        valueLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(valueLabel)
     }
 
