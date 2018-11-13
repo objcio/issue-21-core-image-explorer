@@ -33,62 +33,62 @@ class LabeledSliderView: UIView {
         slider.minimumValue = parameter.minimumValue!
         slider.maximumValue = parameter.maximumValue!
         slider.value = parameter.currentValue
-        slider.setTranslatesAutoresizingMaskIntoConstraints(false)
+        slider.translatesAutoresizingMaskIntoConstraints = false
         addSubview(slider)
 
-        slider.addTarget(self, action: "sliderTouchUpInside:", forControlEvents: .TouchUpInside)
-        slider.addTarget(self, action: "sliderValueDidChange:", forControlEvents: .ValueChanged)
+        slider.addTarget(self, action: #selector(LabeledSliderView.sliderTouchUpInside(_:)), for: .touchUpInside)
+        slider.addTarget(self, action: #selector(LabeledSliderView.sliderValueDidChange(_:)), for: .valueChanged)
 
         descriptionLabel = UILabel(frame: frame)
-        descriptionLabel.font = UIFont.boldSystemFontOfSize(14)
+        descriptionLabel.font = UIFont.boldSystemFont(ofSize: 14)
         descriptionLabel.textColor = UIColor(white: 0.9, alpha: 1.0)
         descriptionLabel.text = parameter.name
-        descriptionLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(descriptionLabel)
 
         valueLabel = UILabel(frame: frame)
-        valueLabel.font = UIFont.systemFontOfSize(14)
+        valueLabel.font = UIFont.systemFont(ofSize: 14)
         valueLabel.textColor = UIColor(white: 0.9, alpha: 1.0)
-        valueLabel.textAlignment = .Right
+        valueLabel.textAlignment = .right
         valueLabel.text = slider.value.description
-        valueLabel.setTranslatesAutoresizingMaskIntoConstraints(false)
+        valueLabel.translatesAutoresizingMaskIntoConstraints = false
         addSubview(valueLabel)
     }
 
     func addLayoutConstraints() {
-        addConstraint(NSLayoutConstraint(item: slider, attribute: .Width, relatedBy: .Equal,
-            toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: slider, attribute: .Height, relatedBy: .Equal,
-            toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
-        addConstraint(NSLayoutConstraint(item: slider, attribute: .Bottom, relatedBy: .Equal,
-            toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: slider, attribute: .Leading, relatedBy: .Equal,
-            toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: slider, attribute: .width, relatedBy: .equal,
+            toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: slider, attribute: .height, relatedBy: .equal,
+            toItem: self, attribute: .height, multiplier: 0.5, constant: 0))
+        addConstraint(NSLayoutConstraint(item: slider, attribute: .bottom, relatedBy: .equal,
+            toItem: self, attribute: .bottom, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: slider, attribute: .leading, relatedBy: .equal,
+            toItem: self, attribute: .leading, multiplier: 1, constant: 0))
 
-        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Top, relatedBy: .Equal,
-            toItem: self, attribute: .Top, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Height, relatedBy: .Equal,
-            toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
-        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Width, relatedBy: .Equal,
-            toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .Leading, relatedBy: .Equal,
-            toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal,
+            toItem: self, attribute: .top, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .height, relatedBy: .equal,
+            toItem: self, attribute: .height, multiplier: 0.5, constant: 0))
+        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .width, relatedBy: .equal,
+            toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: descriptionLabel, attribute: .leading, relatedBy: .equal,
+            toItem: self, attribute: .leading, multiplier: 1, constant: 0))
 
-        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Top, relatedBy: .Equal,
-            toItem: self, attribute: .Top, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Height, relatedBy: .Equal,
-            toItem: self, attribute: .Height, multiplier: 0.5, constant: 0))
-        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Width, relatedBy: .Equal,
-            toItem: self, attribute: .Width, multiplier: 1, constant: 0))
-        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .Leading, relatedBy: .Equal,
-            toItem: self, attribute: .Leading, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .top, relatedBy: .equal,
+            toItem: self, attribute: .top, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .height, relatedBy: .equal,
+            toItem: self, attribute: .height, multiplier: 0.5, constant: 0))
+        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .width, relatedBy: .equal,
+            toItem: self, attribute: .width, multiplier: 1, constant: 0))
+        addConstraint(NSLayoutConstraint(item: valueLabel, attribute: .leading, relatedBy: .equal,
+            toItem: self, attribute: .leading, multiplier: 1, constant: 0))
     }
 
-    func sliderValueDidChange(sender: AnyObject?) {
+    @objc func sliderValueDidChange(_ sender: AnyObject?) {
         valueLabel.text = String(format: "%0.2f", slider.value)
     }
 
-    func sliderTouchUpInside(sender: AnyObject?) {
+    @objc func sliderTouchUpInside(_ sender: AnyObject?) {
         if delegate != nil {
             delegate!.parameterValueDidChange(ScalarFilterParameter(key: parameter.key, value: slider.value))
         }

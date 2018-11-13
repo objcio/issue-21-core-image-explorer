@@ -21,34 +21,34 @@ class PhotoFilterCollectionViewCell: UICollectionViewCell {
     }
 
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
         addSubviews()
     }
 
-    override func intrinsicContentSize() -> CGSize {
-        return CGSizeMake(kCellWidth, kCellWidth + kLabelHeight);
+    override var intrinsicContentSize : CGSize {
+        return CGSize(width: kCellWidth, height: kCellWidth + kLabelHeight);
     }
 
     func addSubviews() {
         if (filteredImageView == nil) {
-            filteredImageView = FilteredImageView(frame: CGRectMake(0, 0, kCellWidth, kCellWidth))
-            filteredImageView.layer.borderColor = tintColor.CGColor
+            filteredImageView = FilteredImageView(frame: CGRect(x: 0, y: 0, width: kCellWidth, height: kCellWidth))
+            filteredImageView.layer.borderColor = tintColor.cgColor
             contentView.addSubview(filteredImageView)
         }
 
         if (filterNameLabel == nil) {
-            filterNameLabel = UILabel(frame: CGRectMake(0, kCellWidth, kCellWidth, kLabelHeight))
-            filterNameLabel.textAlignment = .Center
+            filterNameLabel = UILabel(frame: CGRect(x: 0, y: kCellWidth, width: kCellWidth, height: kLabelHeight))
+            filterNameLabel.textAlignment = .center
             filterNameLabel.textColor = UIColor(white: 0.9, alpha: 1.0)
             filterNameLabel.highlightedTextColor = tintColor
-            filterNameLabel.font = UIFont.systemFontOfSize(12)
+            filterNameLabel.font = UIFont.systemFont(ofSize: 12)
             contentView.addSubview(filterNameLabel)
         }
     }
 
-    override var selected: Bool {
+    override var isSelected: Bool {
         didSet {
-            filteredImageView.layer.borderWidth = selected ? 2 : 0
+            filteredImageView.layer.borderWidth = isSelected ? 2 : 0
         }
     }
 }

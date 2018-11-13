@@ -31,37 +31,37 @@ class FilterListViewController: UITableViewController {
         ("CIVignette", "Vignette")
     ]
 
-    override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: animated)
-        navigationController?.navigationBar.barStyle = .Default
-        tabBarController?.tabBar.barStyle = .Default
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarStyle(.default, animated: animated)
+        navigationController?.navigationBar.barStyle = .default
+        tabBarController?.tabBar.barStyle = .default
     }
 
     // MARK: - Segues
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetail" {
-            if let indexPath = tableView.indexPathForSelectedRow() {
-                var controller = segue.destinationViewController as FilterDetailViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let controller = segue.destination as! FilterDetailViewController
                 controller.filterName = filters[indexPath.row].filterName
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
             }
         }
     }
 
     // MARK: - Table View
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return filters.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let filterProperties: (filterName: String, filterDisplayName: String) = filters[indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("SystemFilterCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SystemFilterCell", for: indexPath) as UITableViewCell
         cell.textLabel!.text = filterProperties.filterDisplayName;
         return cell
     }
