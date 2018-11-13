@@ -9,26 +9,92 @@
 import UIKit
 
 class FilterListViewController: UITableViewController {
-    let filters: [(filterName: String, filterDisplayName: String)] = [
-        ("CIBloom", "Bloom"),
-        ("CIColorControls", "Color Controls"),
-        ("CIColorInvert", "Color Invert"),
-        ("CIColorPosterize", "Color Posterize"),
-        ("CIExposureAdjust", "Exposure Adjust"),
-        ("CIGammaAdjust", "Gamma Adjust"),
-        ("CIGaussianBlur", "Gaussian Blur"),
-        ("CIGloom", "Gloom"),
-        ("CIHighlightShadowAdjust", "Highlights and Shadows"),
-        ("CIHueAdjust", "Hue Adjust"),
-        ("CILanczosScaleTransform", "Lanczos Scale Transform"),
-        ("CIMaximumComponent", "Maximum Component"),
-        ("CIMinimumComponent", "Minimum Component"),
-        ("CISepiaTone", "Sepia Tone"),
-        ("CISharpenLuminance", "Sharpen Luminance"),
-        ("CIStraightenFilter", "Straighten"),
-        ("CIUnsharpMask", "Unsharp Mask"),
-        ("CIVibrance", "Vibrance"),
-        ("CIVignette", "Vignette")
+    let categorizedFilters: [(categoryName: String, filterNames:[String])] = [
+        ("Distortion Effect", [
+            ("CIDroste"),
+            ("CIGlassLozenge"),
+            ("CIHoleDistortion"),
+            ("CILightTunnel"),
+            ("CIPinchDistortion"),
+            ("CITorusLensDistortion"),
+            ("CITwirlDistortion"),
+            ("CIVortexDistortion"),
+            ]),
+        ("Geometry Adjustment", [
+            ("CILanczosScaleTransform"),
+            ("CIStraightenFilter"),
+            ]),
+        ("Halftone Effect", [
+            ("CICircularScreen"),
+            ("CICMYKHalftone"),
+            ("CIDotScreen"),
+            ("CIHatchedScreen"),
+            ("CILineScreen"),
+            ]),
+        ("Color Effect", [
+            ("CIColorInvert"),
+            ("CIColorMonochrome"),
+            ("CIColorPosterize"),
+            ("CIDither"),
+            ("CIFalseColor"),
+            ("CIMaximumComponent"),
+            ("CIMinimumComponent"),
+            ("CISepiaTone"),
+            ("CIThermal"),
+            ("CIVignette"),
+            ("CIVignetteEffect"),
+            ("CIXRay"),
+            ]),
+        ("Color Adjustment", [
+            ("CIColorControls"),
+            ("CIExposureAdjust"),
+            ("CIGammaAdjust"),
+            ("CIHueAdjust"),
+            ("CILinearToSRGBToneCurve"),
+            ("CISRGBToneCurveToLinear"),
+            ("CIVibrance"),
+            ]),
+        ("Tile Effect", [
+            ("CIGlideReflectedTile"),
+            ("CIKaleidoscope"),
+            ("CIOpTile"),
+            ("CIParallelogramTile"),
+            ("CIPerspectiveTile"),
+            ("CISixfoldReflectedTile"),
+            ("CISixfoldRotatedTile"),
+            ("CITriangleKaleidoscope"),
+            ("CITriangleTile"),
+            ("CITwelvefoldReflectedTile"),
+            ]),
+        ("Stylize", [
+            ("CIBloom"),
+            ("CIComicEffect"),
+            ("CICrystallize"),
+            ("CIDepthOfField"),
+            ("CIEdges"),
+            ("CIEdgeWork"),
+            ("CIGloom"),
+            ("CIHeightFieldFromMask"),
+            ("CIHexagonalPixellate"),
+            ("CIHighlightShadowAdjust"),
+            ("CIPixellate"),
+            ("CIPointillize"),
+            ("CISpotColor"),
+            ("CISpotLight"),
+            ]),
+        ("Blur", [
+            ("CIBokehBlur"),
+            ("CIBoxBlur"),
+            ("CIDiscBlur"),
+            ("CIGaussianBlur"),
+            ("CIMedianFilter"),
+            ("CIMorphologyGradient"),
+            ("CIMorphologyMaximum"),
+            ("CIMorphologyMinimum"),
+            ("CIMotionBlur"),
+            ("CINoiseReduction"),
+            ("CIZoomBlur"),
+            ])
     ]
 
     override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +109,7 @@ class FilterListViewController: UITableViewController {
         if segue.identifier == "showDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! FilterDetailViewController
-                controller.filterName = filters[indexPath.row].filterName
+                controller.filterName = categorizedFilters[indexPath.section].filterNames[indexPath.row]
                 tableView.deselectRow(at: indexPath, animated: true)
             }
         }
@@ -52,17 +118,22 @@ class FilterListViewController: UITableViewController {
     // MARK: - Table View
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return categorizedFilters.count
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return categorizedFilters[section].categoryName
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filters.count
+        return categorizedFilters[section].filterNames.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let filterProperties: (filterName: String, filterDisplayName: String) = filters[indexPath.row]
+        let filterName = categorizedFilters[indexPath.section].filterNames[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "SystemFilterCell", for: indexPath) as UITableViewCell
-        cell.textLabel!.text = filterProperties.filterDisplayName;
+        cell.textLabel!.text = CIFilter(name: filterName)!.attributes[kCIAttributeFilterDisplayName] as? String
+
         return cell
     }
 }

@@ -45,10 +45,12 @@ class FilterDetailViewController: UIViewController, UINavigationControllerDelega
 
         let attributes = filter.attributes
 
-        return inputNames.map { (inputName: String) -> ScalarFilterParameter in
+        return inputNames.compactMap { (inputName: String) -> ScalarFilterParameter? in
             let attribute = attributes[inputName] as! [String : AnyObject]
+            guard attribute[kCIAttributeSliderMin] != nil else { return nil }
             // strip "input" from the start of the parameter name to make it more presentation-friendly
             let displayName = String(inputName.dropFirst(5))
+
             let minValue = (attribute[kCIAttributeSliderMin] as! NSNumber).floatValue
             let maxValue = (attribute[kCIAttributeSliderMax] as! NSNumber).floatValue
             let defaultValue = (attribute[kCIAttributeDefault] as! NSNumber).floatValue
