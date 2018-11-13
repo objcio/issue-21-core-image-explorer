@@ -30,36 +30,36 @@ class PhotoFilterViewController: UIViewController, UICollectionViewDataSource, U
         super.viewDidLoad()
 
         for descriptor in filterDescriptors {
-            filters.append(CIFilter(name: descriptor.filterName))
+            filters.append(CIFilter(name: descriptor.filterName)!)
         }
 
         filteredImageView.inputImage = UIImage(named: kSampleImageName)
-        filteredImageView.contentMode = .ScaleAspectFit
+        filteredImageView.contentMode = .scaleAspectFit
         filteredImageView.filter = filters[0]
     }
 
-    override func viewWillAppear(animated: Bool) {
-        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: animated)
-        navigationController?.navigationBar.barStyle = .Black
-        tabBarController?.tabBar.barStyle = .Black
+    override func viewWillAppear(_ animated: Bool) {
+        UIApplication.shared.setStatusBarStyle(.lightContent, animated: animated)
+        navigationController?.navigationBar.barStyle = .black
+        tabBarController?.tabBar.barStyle = .black
     }
 
     // MARK: - Collection View
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filterDescriptors.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoFilterCell", forIndexPath: indexPath) as PhotoFilterCollectionViewCell
-        cell.filteredImageView.contentMode = .ScaleAspectFill
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoFilterCell", for: indexPath) as! PhotoFilterCollectionViewCell
+        cell.filteredImageView.contentMode = .scaleAspectFill
         cell.filteredImageView.inputImage = filteredImageView.inputImage
         cell.filteredImageView.filter = filters[indexPath.item]
         cell.filterNameLabel.text = filterDescriptors[indexPath.item].filterDisplayName
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         filteredImageView.filter = filters[indexPath.item]
     }
 }
